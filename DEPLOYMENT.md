@@ -1,5 +1,23 @@
 # GitHub Actions 部署教程
 
+## 当前部署状态
+
+当前主站由 Cloudflare Pages 构建并托管，GitHub Pages 仅保留为旧链接跳转入口。
+
+Cloudflare Pages 推荐设置：
+
+```bash
+hugo --minify
+```
+
+构建输出目录：
+
+```text
+public
+```
+
+当前 `.github/workflows/hugo.yml` 不再构建 Hugo 站点，而是发布一个重定向页面到 GitHub Pages。旧的 GitHub Pages Hugo 构建流程仍保留在下方作为恢复或参考说明。
+
 本教程将指导你如何使用 GitHub Actions 自动将 Hugo 博客部署到 GitHub Pages。
 
 ## 前提条件

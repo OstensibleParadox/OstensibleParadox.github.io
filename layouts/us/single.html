@@ -1,0 +1,32 @@
+{{- define "main" }}
+
+<article class="post-single us-single">
+  <header class="post-header">
+    {{- partial "breadcrumbs.html" . }}
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{- if or (not .Date.IsZero) .Description }}
+    <div class="post-meta us-meta">
+      {{- if not .Date.IsZero }}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+      {{- end }}
+      {{- with .Description }}
+      <span>{{ . }}</span>
+      {{- end }}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer us-footer">
+    <a class="us-back-link" href="{{ "/us/" | relURL }}">All notes</a>
+  </footer>
+</article>
+
+{{- end }}{{/* end main */}}

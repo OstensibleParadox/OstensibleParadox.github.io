@@ -169,9 +169,21 @@ hugo
 
 ## 部署
 
-### GitHub Pages 部署
+### 当前托管方式
 
-使用 GitHub Actions 自动部署到 GitHub Pages，详见 `.github/workflows/hugo.yml`。
+主站由 Cloudflare Pages 构建并托管。推荐构建设置：
+
+```bash
+hugo --minify
+```
+
+构建输出目录为 `public/`。
+
+### GitHub Pages 旧链接跳转
+
+GitHub Pages 保留用于旧地址跳转。`.github/workflows/hugo.yml` 会发布一个很小的重定向页面，将 `ostensibleparadox.github.io` 的访问转到 Cloudflare Pages。
+
+如果以后要恢复 GitHub Pages 直接托管 Hugo 站点，需要把该 workflow 改回 Hugo 构建和 Pages artifact 部署流程。
 
 ### 其他部署方式
 
