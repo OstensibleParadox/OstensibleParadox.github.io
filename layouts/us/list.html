@@ -1,0 +1,42 @@
+{{- define "main" }}
+
+<section class="us-section">
+  <header class="page-header us-header">
+    {{- partial "breadcrumbs.html" . }}
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . | markdownify }}</div>
+    {{- end }}
+  </header>
+
+  {{- with .Content }}
+  <div class="post-content md-content us-intro">
+    {{- if not ($.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" . -}}
+    {{- else }}{{ . }}{{ end }}
+  </div>
+  {{- end }}
+
+  <div class="us-list" aria-label="Us posts">
+    {{- range .RegularPages.ByDate.Reverse }}
+    {{- $page := . }}
+    <article class="us-entry">
+      <a href="{{ .RelPermalink }}">
+        <header>
+          <h2>{{ .Title }}</h2>
+          {{- if not .Date.IsZero }}
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+          {{- end }}
+        </header>
+        {{- with .Summary }}
+        <p>{{ . | plainify | htmlUnescape }}{{ if $page.Truncated }}...{{ end }}</p>
+        {{- end }}
+      </a>
+    </article>
+    {{- else }}
+    <p class="us-empty">Nothing here yet.</p>
+    {{- end }}
+  </div>
+</section>
+
+{{- end }}{{/* end main */}}
