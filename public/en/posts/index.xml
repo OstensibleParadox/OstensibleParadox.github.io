@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on My New Hugo Project</title>
+    <link>http://localhost:1313/en/posts/</link>
+    <description>Recent content in Posts on My New Hugo Project</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 May 2026 14:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Second Essay</title>
+      <link>http://localhost:1313/en/posts/essay2/</link>
+      <pubDate>Sun, 10 May 2026 14:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/en/posts/essay2/</guid>
+      <description>&lt;p&gt;This is the second English essay, demonstrating multiple post functionality.&lt;/p&gt;
+&lt;p&gt;Content can be about any topic.&lt;/p&gt;
+&lt;p&gt;2026-05-10&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>This is the second English essay, demonstrating multiple post functionality.</p>
+<p>Content can be about any topic.</p>
+<p>2026-05-10</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>First Essay</title>
+      <link>http://localhost:1313/en/posts/essay1/</link>
+      <pubDate>Sun, 10 May 2026 13:01:35 +0800</pubDate>
+      <guid>http://localhost:1313/en/posts/essay1/</guid>
+      <description>&lt;p&gt;Hello everyone, this is my first English essay post.&lt;/p&gt;
+&lt;p&gt;This is a sample article to test English content display.&lt;/p&gt;
+&lt;p&gt;2026-05-10&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Hello everyone, this is my first English essay post.</p>
+<p>This is a sample article to test English content display.</p>
+<p>2026-05-10</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

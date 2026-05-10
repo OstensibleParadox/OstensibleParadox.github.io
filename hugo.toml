@@ -1,0 +1,143 @@
+baseURL = 'https://example.org/'
+title = 'My New Hugo Project'
+theme = 'PaperMod'
+
+defaultContentLanguage = 'zh'
+defaultContentLanguageInSubdir = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  page = ["HTML"]
+
+[outputs.zh]
+  home = ["HTML", "RSS", "JSON"]
+
+[outputs.en]
+  home = ["HTML", "RSS", "JSON"]
+
+[params]
+  env = "production"
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = false
+  ShowFullTextinRSS = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  comments = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = false
+  tocopen = false
+
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 0
+    keys = ["title", "permalink", "summary", "content"]
+
+  [params.assets]
+    favicon = "<link / abs url>"
+    favicon16x16 = "<link / abs url>"
+    favicon32x32 = "<link / abs url>"
+    apple_touch_icon = "<link / abs url>"
+    safari_pinned_tab = "<link / abs url>"
+
+  [params.label]
+    text = "Home"
+    icon = "/apple-touch-icon.png"
+    iconHeight = 35
+
+  [params.profileMode]
+    enabled = false
+    title = "ExampleSite"
+    subtitle = "This is subtitle"
+    imageUrl = "<profile image url>"
+    imageWidth = 120
+    imageHeight = 120
+    imageTitle = "my image"
+
+    [[params.profileMode.buttons]]
+      name = "Posts"
+      url = "posts"
+
+    [[params.profileMode.buttons]]
+      name = "Tags"
+      url = "tags"
+
+  [params.homeInfoParams]
+    Title = "Hi there \U0001F44B"
+    Content = "您可以使用 Markdown Lovejade 来将飞书文档转为markdown。"
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/OstensibleParadox"
+
+[languages]
+  [languages.zh]
+    contentDir = 'content/Chinese'
+    languageName = '中文'
+    languageCode = 'zh-cn'
+    weight = 1
+
+    [[languages.zh.menu.main]]
+      identifier = "search"
+      name = "搜索"
+      url = "/search/"
+      weight = 5
+
+    [[languages.zh.menu.main]]
+      identifier = "home"
+      name = "首页"
+      url = "/"
+      weight = 10
+
+    [[languages.zh.menu.main]]
+      identifier = "posts"
+      name = "文章"
+      url = "/posts/"
+      weight = 20
+
+    [[languages.zh.menu.main]]
+      identifier = "about"
+      name = "关于"
+      url = "/about/"
+      weight = 30
+
+  [languages.en]
+    contentDir = 'content/English'
+    languageName = 'English'
+    languageCode = 'en-us'
+    weight = 2
+
+    [[languages.en.menu.main]]
+      identifier = "search"
+      name = "Search"
+      url = "/search/"
+      weight = 5
+
+    [[languages.en.menu.main]]
+      identifier = "home"
+      name = "Home"
+      url = "/"
+      weight = 10
+
+    [[languages.en.menu.main]]
+      identifier = "posts"
+      name = "Posts"
+      url = "/posts/"
+      weight = 20
+
+    [[languages.en.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about/"
+      weight = 30
