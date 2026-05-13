@@ -29,11 +29,11 @@ jobs:
               <meta charset="utf-8">
               <meta name="viewport" content="width=device-width, initial-scale=1">
               <meta name="robots" content="noindex, nofollow">
-              <meta http-equiv="refresh" content="0; url=https://ostensibleparadox.pages.dev/">
-              <link rel="canonical" href="https://ostensibleparadox.pages.dev/">
+              <meta http-equiv="refresh" content="0; url=https://ostensibleparadox-github-io.pages.dev/">
+              <link rel="canonical" href="https://ostensibleparadox-github-io.pages.dev/">
               <title>Redirecting...</title>
               <script>
-                const target = new URL("https://ostensibleparadox.pages.dev/");
+                const target = new URL("https://ostensibleparadox-github-io.pages.dev/");
                 target.pathname = window.location.pathname;
                 target.search = window.location.search;
                 target.hash = window.location.hash;
@@ -41,7 +41,7 @@ jobs:
               </script>
             </head>
             <body>
-              <p><a href="https://ostensibleparadox.pages.dev/">Continue to the site.</a></p>
+              <p><a href="https://ostensibleparadox-github-io.pages.dev/">Continue to the site.</a></p>
             </body>
           </html>
           HTML
@@ -55,7 +55,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: https://ostensibleparadox.pages.dev/
+      url: https://ostensibleparadox-github-io.pages.dev/
     runs-on: ubuntu-latest
     needs: redirect
     steps:
