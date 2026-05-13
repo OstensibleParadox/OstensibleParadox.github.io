@@ -188,7 +188,7 @@ defaultContentLanguageInSubdir = true
 
     [[languages.en.menu.main]]
       identifier = "us"
-      name = "Us"
+      name = "Lucia's Treehouse"
       url = "https://ostensibleparadox-github-io.pages.dev/us/"
       weight = 25
 
