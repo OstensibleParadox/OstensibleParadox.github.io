@@ -1,149 +1,157 @@
-# OstensibleParadox Hugo Blog
+# ostensible-paradox
 
-这是一个使用 Hugo 和 PaperMod 主题搭建的双语个人博客，支持中文和英文内容。主站由 Cloudflare Pages 托管，并使用 Pages Functions 和 D1 提供受保护区域的动态接口；旧 GitHub Pages 地址保留为跳转入口。
+A bilingual Hugo blog with a Cloudflare Access-gated private room and a password-protected content area — static public content, dynamic private content, separate persistence boundaries.
 
-## Quick Start
+## About
 
-- 线上站点：<https://ostensibleparadox-github-io.pages.dev/>
-- 中文首页：<https://ostensibleparadox-github-io.pages.dev/zh/>
-- English home: <https://ostensibleparadox-github-io.pages.dev/en/>
-- 旧 GitHub Pages 地址：<https://ostensibleparadox.github.io/>，会跳转到当前 Cloudflare 托管站点。
+This is my personal bilingual site (Chinese/English), featuring essays on AI governance and a private discussion room for invited readers, built as a retro-styled single-page application. The repository is public to demonstrate the architecture; private user-generated content is stored in D1 and R2, not in git.
 
-本地预览：
+## Architecture
 
-```bash
-hugo server -D
+```
+                   Cloudflare Pages
+                        │
+         ┌──────────────┼──────────────┐
+         ▼              ▼              ▼
+    Hugo static     Pages Functions   D1 (SQLite)
+    public site     /us/api/*          room_entries
+    (/zh/, /en/)    │                 room_rate_limits
+                    │
+         ┌──────────┴──────────┐
+         ▼                     ▼
+    Access JWT verification   R2 (images)
+    (identity layer)
 ```
 
-生产构建：
+**Four layers, two content domains:**
 
-```bash
-hugo --minify
-```
+| Layer | Public | Private (`/us/`) |
+|---|---|---|
+| **Edge** | Cloudflare Pages serves static HTML | Cloudflare Access gates all `/us/*` routes |
+| **Static shell** | Hugo builds blog from `content/` | Hugo builds room UI shell from `layouts/us/` |
+| **API** | None needed | Pages Functions validate Access JWT, serve dynamic data |
+| **Persistence** | Git-tracked Markdown files | D1 (SQLite at edge) — never committed to the public repo |
 
-## 项目结构
+A separate password-protection layer (`functions/_middleware.js`) guards `/private/` content paths with cookie-based authentication — distinct from the Cloudflare Access JWT gate used by `/us/`.
+
+The public blog is pure Hugo. Markdown in `content/Chinese/` and `content/English/`, built to static HTML. No dynamic server needed.
+
+The private room at `/us/` is a Windows 98-styled single-page app: a Hugo-built static shell that hydrates by calling `/us/api/*` endpoints. All user-generated content (shouts, Markdown posts, images) lives in D1 and R2. The room UI (388 lines of vanilla JS, 413 lines of CSS), API (897 lines), and database form a self-contained dynamic application within the static site.
+
+## Key Decisions
+
+### Pages Functions + D1 instead of pure static
+
+**Why:** The `/us/` room needs multi-user, persistent, user-generated content. Hugo has no runtime — it can't accept POST requests, store data, or authenticate users. Adding a database to a static site is a category change, not an incremental feature.
+
+D1 was chosen over an external database because it runs at the edge — same Cloudflare network, no cross-datacenter latency, no separate connection pool to manage. It's SQLite, which is more than sufficient for a small private room and avoids operational complexity.
+
+### JWT verification at edge and Pages Function level
+
+**Why:** Defense in depth. Cloudflare Access validates the JWT at the network edge (before the request reaches the Pages Function), but the Function re-validates it independently before any data read or write. This means:
+
+- A misconfigured Access policy doesn't silently expose data — the Function is a second gate.
+- The Function derives user identity from the verified JWT claims (email → handle), never from client-submitted fields.
+- Local development can bypass Access entirely (using `DEV_ROOM_EMAIL`) without changing the verification code path — same function, different credential source.
+
+The JWT verification uses `RS256` with JWKS fetched from Cloudflare's certificate endpoint, cached for one hour, verified via Web Crypto (`crypto.subtle.verify`). No external auth library dependency.
+
+### Private content never enters the public repo
+
+**Why:** The repository is public. The room is private. These are irreconcilable constraints — the only correct solution is to never store private content in git. User submissions go directly to D1. The room's Hugo template is committed (it's structural, not content), but the data it displays never touches the filesystem.
+
+This also means no Hugo rebuild is needed when someone posts. The static shell stays static; the content is fetched client-side from the API.
+
+### Server-side Markdown rendering with constrained output
+
+**Why:** User-submitted Markdown is untrusted input. The server renders it to HTML with a custom zero-dependency renderer that:
+- Disallows raw HTML entirely
+- Only allows `http:`, `https:`, and `mailto:` link protocols
+- Strips image syntax in rendered output unless the URL points to `/us/api/images/`
+- Only accepts `title`, `summary`, and `tags` from user front matter — author, dates, and visibility are server-assigned
+
+This prevents XSS, IP/referrer leaks to third parties, and author spoofing in one pass.
+
+### Identity from verified email, not user input
+
+**Why:** The author of every entry is derived from the Cloudflare Access JWT's `email` claim. The client cannot override it. No user profiles, no display name settings, no impersonation surface. The handle is the email local-part, computed server-side.
+
+### Rate limiting in D1, not a separate cache
+
+**Why:** The app already has a D1 binding. Adding Redis or another KV store for rate limiting would introduce a second stateful dependency for a single feature. Instead, rate limits use D1's `INSERT ... ON CONFLICT DO UPDATE` with sliding windows keyed by `action:email:time_bucket`. One database, one operational surface.
+
+### Soft delete over hard delete
+
+**Why:** Moderation actions are reversible. Entries get a `deleted_at` timestamp; listing queries filter `WHERE deleted_at IS NULL`. Accidental deletions can be undone by clearing the timestamp. This costs almost nothing at this scale and eliminates a class of irreversible operator error.
+
+### SPA without a framework
+
+**Why:** The room UI (`assets/js/us-room.js`, 388 lines) uses zero dependencies — no React, no jQuery, no build step. The DOM surface is small enough that vanilla JS with `fetch`, `addEventListener`, and `innerHTML` is less code than the boilerplate of any framework. The Hugo asset pipeline handles minification and fingerprinting with SRI hashes.
+
+### Password middleware for private content
+
+**Why:** Some content (e.g., informal guides under `content/Chinese/posts/private/`) should be readable without requiring Cloudflare Access, which demands a specific identity provider. A separate cookie-based password gate (`functions/_middleware.js`) protects these paths with a shared password, providing a simpler, lower-friction access model for content that doesn't need the full JWT identity layer.
+
+## Project Structure
 
 ```text
 .
 ├── content/
-│   ├── Chinese/          # 中文公开内容
-│   │   ├── about.md
-│   │   ├── search.md
-│   │   └── posts/
-│   ├── English/          # 英文公开内容
-│   │   ├── about.md
-│   │   ├── search.md
-│   │   └── posts/
-│   └── us/               # Cloudflare Access 保护区域的静态入口
-├── layouts/              # Hugo 模板覆盖
-├── assets/               # Hugo 管理的 CSS/JS 资源
-├── static/               # 直接复制到 public/ 的静态文件
-├── scripts/              # 内容处理脚本
-├── functions/            # Cloudflare Pages Functions 路由
-├── migrations/           # Cloudflare D1 SQL 迁移
-├── src/                  # 共享的 Pages Function/Worker API 代码
-├── hugo.toml             # Hugo 配置
-├── wrangler.jsonc        # Cloudflare Pages Functions/D1 配置
-└── README.md
+│   ├── Chinese/          # Chinese public content (posts, about, search)
+│   ├── English/          # English public content (posts, about, search)
+│   └── us/               # Static entry point for the protected area
+├── layouts/              # Hugo template overrides (header, post meta, /us/ shell)
+├── assets/
+│   ├── css/extended/     # custom.css (theme), us.css (Win98 room UI)
+│   └── js/us-room.js     # Zero-dependency SPA client for the private room
+├── static/               # Static files: _headers, _redirects, images/
+├── scripts/              # paper-to-blog.sh — academic paper → Hugo branch bundles
+├── functions/            # Pages Functions route handlers → delegates to src/
+├── migrations/           # Cloudflare D1 SQL migrations
+├── src/                  # Shared API implementation (JWT verification, CRUD, markdown, rate limiting)
+├── hugo.toml             # Hugo configuration (bilingual, search, PaperMod params)
+├── wrangler.jsonc        # Cloudflare Pages Functions, D1, and R2 bindings
+└── themes/PaperMod/      # PaperMod theme (git submodule)
 ```
 
-## 新建公开文章
+## Quick Start
 
-在对应语言目录下创建 Markdown 文件：
-
-- 中文文章：`content/Chinese/posts/your-article.md`
-- 英文文章：`content/English/posts/your-article.md`
-
-Front Matter 示例：
-
-```markdown
-+++
-date = '2026-05-10T13:01:35+08:00'
-draft = false
-title = '文章标题'
-+++
-
-这里是文章内容。
-```
-
-## 图片引用
-
-图片文件放在 `static/images/` 下，Markdown 中使用从站点根路径开始的地址：
-
-```markdown
-![图片描述](/images/essay1/image1.jpg)
-```
-
-Hugo 构建时会将 `static/` 下的文件复制到 `public/`，因此 Markdown 路径不需要包含 `static/` 前缀。
-
-## 学术论文连载
-
-较长的论文或章节可以使用 `scripts/paper-to-blog.sh` 转成 PaperMod 适用的多页 Branch Bundle。详细说明见 [scripts/paper-to-blog-README.md](scripts/paper-to-blog-README.md)。
-
-## 私有区域
-
-`/us/` 是一个由 Cloudflare Access 保护的私有区域。静态入口由 Hugo 构建，动态数据由 Pages Functions 和 D1 提供。私有区域产生的内容不写入公开仓库，也不进入 Hugo 搜索、RSS 或 sitemap。
-
-## 本地开发
-
-安装 Hugo 后，可以运行：
+- Site: <https://ostensibleparadox-github-io.pages.dev/>
+- Chinese home: <https://ostensibleparadox-github-io.pages.dev/zh/>
+- English home: <https://ostensibleparadox-github-io.pages.dev/en/>
+- Legacy redirect: <https://ostensibleparadox.github.io/>
 
 ```bash
-hugo server -D
+hugo server -D                # local preview at http://localhost:1313
+hugo --minify                 # production build
+npx wrangler pages dev public # full-stack local dev with Pages Functions + D1
 ```
 
-访问 `http://localhost:1313` 预览站点。
+## Usage
 
-如需调试 Pages Functions 和 D1：
+**Adding public posts:** Create Markdown under `content/Chinese/posts/` or `content/English/posts/` with TOML front matter (`date`, `draft`, `title`). Images go in `static/images/` and are referenced from Markdown with root-relative paths (`![alt](/images/essay1/img.jpg)`).
 
-```bash
-npx wrangler pages dev public
-```
+**Academic papers:** Use `scripts/paper-to-blog.sh` to convert `.tex` or `.md` papers into PaperMod-compatible Hugo branch bundles with numbered chapters, cross-references, and bilingual navigation. See [scripts/paper-to-blog-README.md](scripts/paper-to-blog-README.md).
 
-## 构建与部署
+**Search:** Client-side Fuse.js search is available at `/zh/search/` (Chinese) and `/en/search/` (English). The search index is generated by Hugo at build time.
 
-本地构建：
+## Stack
 
-```bash
-hugo --minify
-```
+- **Static site:** Hugo + PaperMod theme
+- **Theme:** "Envying Baby" custom CSS (warm café palette, light/dark modes)
+- **Hosting:** Cloudflare Pages
+- **Dynamic API:** Cloudflare Pages Functions (JavaScript, Web Crypto, zero npm dependencies)
+- **Database:** Cloudflare D1 (SQLite at edge)
+- **Image storage:** Cloudflare R2
+- **Authentication:** Cloudflare Access (JWT via `Cf-Access-Jwt-Assertion`) + cookie-based password middleware
+- **Search:** Fuse.js client-side, index generated at Hugo build time
+- **CI/CD:** Cloudflare Pages auto-deploy from `main` branch; GitHub Actions for legacy Pages redirect
 
-Cloudflare Pages 会在 GitHub `main` 分支更新后自动运行 Hugo 构建并部署。手动部署当前 `public/` 输出目录：
+## Boundaries
 
-```bash
-npx wrangler pages deploy public --project-name ostensibleparadox-github-io
-```
+The API source code (`src/index.js`, `functions/`) and room UI (`assets/js/us-room.js`, `layouts/us/`) are fully public — the architecture is transparent. What stays out of this repository:
 
-`wrangler.jsonc` 为 Pages Functions 提供环境变量和 D1 绑定。D1 schema 通过 `migrations/` 管理。
-
-## 双语配置
-
-- 默认语言：中文
-- 中文路径：`/zh/...`
-- 英文路径：`/en/...`
-
-语言、菜单、搜索输出和固定链接配置在 `hugo.toml` 中维护。
-
-## 搜索功能
-
-网站使用 Fuse.js 客户端搜索：
-
-- 中文搜索：`/zh/search/`
-- 英文搜索：`/en/search/`
-
-搜索索引由 Hugo 构建生成。修改内容后需要重新构建以更新索引。
-
-## 注意事项
-
-1. `public/` 是构建产物，不提交到仓库。
-2. `.wrangler/` 是本地 Wrangler 缓存，不提交到仓库。
-3. 公开文章使用 `content/Chinese/` 和 `content/English/`。
-4. 受保护区域的用户生成内容保存在 D1，不应写入公开 Markdown 内容目录。
-5. 修改 `wrangler.jsonc`、D1 迁移或 Pages Function API 后，应至少运行 `hugo --minify` 和 `npx wrangler pages dev public` 验证。
-
-## 相关链接
-
-- [Hugo 官方文档](https://gohugo.io/documentation/)
-- [PaperMod 主题文档](https://github.com/adityatelange/hugo-PaperMod)
-- [Cloudflare Workers 文档](https://developers.cloudflare.com/workers/)
-- [Cloudflare D1 文档](https://developers.cloudflare.com/d1/)
+- **D1-stored content:** All room entries (shouts, posts) and rate-limit state live in Cloudflare D1, never in git.
+- **R2-stored images:** User-uploaded images go to the `lucia-room-images` bucket.
+- **Password-protected posts:** Content under `content/Chinese/posts/private/` is excluded from the public repo.
+- **Build artifacts:** `public/` (Hugo output) and `.wrangler/` (local Wrangler state) are gitignored.
