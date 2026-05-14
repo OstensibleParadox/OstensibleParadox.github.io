@@ -4,6 +4,7 @@
   "pages_build_output_dir": "./public",
   "compatibility_date": "2026-05-13",
   "vars": {
+    "PRIVATE_POST_PASSWORD": "admin",
     "ACCESS_TEAM_DOMAIN": "https://ostensibleparadox.cloudflareaccess.com",
     "ACCESS_AUD": "bb15661cba72af69bd446c32ce2f8ef220981e5e019fad427e5c1b853936081b",
     "ROOM_OWNER_EMAILS": "",

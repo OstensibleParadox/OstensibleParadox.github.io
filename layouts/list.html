@@ -42,7 +42,12 @@
 {{- $pages = sort $pages "Date" "desc" }}
 
 {{- if .IsHome }}
-{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = slice }}
+{{- range site.Params.mainSections }}
+  {{- with site.GetPage . }}
+    {{- $pages = $pages | append .Pages }}
+  {{- end }}
+{{- end }}
 {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true"  }}
 {{- $pages = sort $pages "Date" "desc" }}
 {{- end }}
