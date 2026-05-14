@@ -60,21 +60,17 @@
 
                 {{- if (not site.Params.disableLangToggle) }}
                     {{- $lang := .Lang}}
-                    {{- $translations := .Translations }}
-                    {{- if not $translations }}
-                        {{- $translations = site.Home.Translations }}
-                    {{- end }}
-                    {{- with $translations }}
                     {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
                     {{- if $separator }}<span class="nav-sep">|</span>{{ end }}
                     <ul class="lang-menu">
-                        {{- range . -}}
+                        {{- range site.Languages -}}
                         {{- if ne $lang .Lang }}
+                        {{- $targetURL := printf "/%s%s" .Lang (strings.TrimPrefix (printf "/%s" $lang) $.RelPermalink) }}
                         <li>
-                            <a href="{{- .Permalink -}}" title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
-                                aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
-                                {{- if (and site.Params.displayFullLangName (.Language.LanguageName)) }}
-                                {{- .Language.LanguageName | emojify -}}
+                            <a href="{{- $targetURL -}}" title="{{ .Params.languageAltTitle | default (.LanguageName | emojify) | default (.Lang | title) }}"
+                                aria-label="{{ .LanguageName | default (.Lang | title) }}">
+                                {{- if (and site.Params.displayFullLangName .LanguageName) }}
+                                {{- .LanguageName | emojify -}}
                                 {{- else }}
                                 {{- .Lang | title -}}
                                 {{- end -}}
@@ -83,7 +79,6 @@
                         {{- end -}}
                         {{- end}}
                     </ul>
-                    {{- end }}
                 {{- end }}
             </div>
             {{- end }}

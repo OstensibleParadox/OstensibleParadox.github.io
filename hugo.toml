@@ -12,17 +12,17 @@ defaultContentLanguageInSubdir = true
   page = ["HTML"]
 
 [permalinks]
-  [permalinks.page]
-    us = '/us/:slug/'
-
-  [permalinks.section]
-    us = '/us/'
 
 [module]
   [[module.mounts]]
     source = 'content/us'
     target = 'content/us'
     lang = 'zh'
+
+  [[module.mounts]]
+    source = 'content/us'
+    target = 'content/us'
+    lang = 'en'
 
   [[module.mounts]]
     source = 'content/Chinese'
@@ -154,7 +154,7 @@ defaultContentLanguageInSubdir = true
     [[languages.zh.menu.main]]
       identifier = "us"
       name = "小露的树屋"
-      url = "https://ostensibleparadox-github-io.pages.dev/us/"
+      url = "/us/"
       weight = 25
 
     [[languages.zh.menu.main]]
@@ -189,7 +189,7 @@ defaultContentLanguageInSubdir = true
     [[languages.en.menu.main]]
       identifier = "us"
       name = "Lucia's Treehouse"
-      url = "https://ostensibleparadox-github-io.pages.dev/us/"
+      url = "/us/"
       weight = 25
 
     [[languages.en.menu.main]]

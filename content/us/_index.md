@@ -1,7 +1,6 @@
 +++
 title = "Lucia's Treehouse & Tree's Cat House"
 description = 'A quiet shared place.'
-url = '/us/'
 outputs = ['HTML']
 searchHidden = true
 hiddenInRss = true
