@@ -2,7 +2,7 @@
 date = "2026-05-08T08:00:00+08:00"
 draft = false
 title = "一、引言：行为主义共识的破产"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "legal attribution", "products liability", "constraint cascade", "structural defense"]
 translationKey = "structural-defense-1"
 weight = 1

@@ -2,7 +2,7 @@
 date = "2026-05-13T08:00:00+08:00"
 draft = false
 title = "第四部分：刺破公司面纱作为制度性判断力"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "judgment", "accountability", "waivers of agency"]
 translationKey = "waivers-of-agency-4"
 weight = 4

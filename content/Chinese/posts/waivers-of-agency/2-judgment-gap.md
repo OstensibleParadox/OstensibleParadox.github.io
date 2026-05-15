@@ -2,7 +2,7 @@
 date = "2026-05-13T08:00:00+08:00"
 draft = false
 title = "第二部分：人工智能治理中的判断力鸿沟"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "judgment", "accountability", "waivers of agency"]
 translationKey = "waivers-of-agency-2"
 weight = 2

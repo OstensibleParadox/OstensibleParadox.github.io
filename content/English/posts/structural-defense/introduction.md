@@ -2,7 +2,7 @@
 date = "2026-05-08T08:00:00+08:00"
 draft = false
 title = "Introduction: The Bankruptcy of the Behaviorist Consensus"
-categories = ["Essays"]
+categories = ['Academic Papers']
 tags = ["AI governance", "legal attribution", "products liability", "constraint cascade", "structural defense"]
 translationKey = "structural-defense-1"
 weight = 1

@@ -2,7 +2,7 @@
 date = "2026-05-08T08:00:00+08:00"
 draft = false
 title = "二、约束级联作为法律诊断工具"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "legal attribution", "products liability", "constraint cascade", "structural defense"]
 translationKey = "structural-defense-2"
 weight = 2

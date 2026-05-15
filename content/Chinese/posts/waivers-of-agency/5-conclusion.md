@@ -2,7 +2,7 @@
 date = "2026-05-13T08:00:00+08:00"
 draft = false
 title = "第五部分：规则、制度前提与结论"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "judgment", "accountability", "waivers of agency"]
 translationKey = "waivers-of-agency-5"
 weight = 5

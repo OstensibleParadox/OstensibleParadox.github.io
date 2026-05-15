@@ -3,6 +3,8 @@ date = '2026-05-15T10:00:00+08:00'
 draft = false
 title = 'Constructing El Gamal & Kim Proof Chain for CutSetBound.lean'
 translationKey = 'constructing-el-gamal-kim-proof-chain'
+categories = ['Explorative Thoughts']
+disciplines = ['Information Theory', 'Coding Theory']
 +++
 
 # Reconstructing the Relay Channel: Modernizing the Cut-set Bound and Degraded Capacity Proofs

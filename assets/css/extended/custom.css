@@ -163,13 +163,9 @@ code {
     color: #d4a656; /* Amber yellow */
 }
 
-/* Navigation Dropdown */
-.menu li {
+/* Horizontal Sub-menu */
+.header-nav {
     position: relative;
-}
-
-.menu-item-dropdown:hover .submenu {
-    display: block;
 }
 
 .submenu {
@@ -177,41 +173,37 @@ code {
     position: absolute;
     top: 100%;
     left: 0;
-    background: var(--entry);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 0.5rem 0;
-    min-width: 160px;
+    width: 100%;
+    padding: 10px 0;
+    justify-content: flex-end;
+    gap: 20px;
     z-index: 100;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Show sub-menu only when parent 'Posts' is active or hovered */
+.menu-item-dropdown:hover .submenu,
+.menu-item-dropdown:has(.active) .submenu {
+    display: flex;
 }
 
 .submenu li {
-    display: block;
-    margin-inline-start: 0 !important;
+    display: inline-block;
+    margin: 0 !important;
 }
 
 .submenu a {
-    display: block;
-    padding: 0.5rem 1rem;
-    color: var(--primary);
-    text-decoration: none !important;
-    white-space: nowrap;
+    color: var(--secondary);
     font-size: 0.9rem;
-    transition: background 0.1s ease;
+    text-decoration: none !important;
+    transition: color 0.15s ease;
 }
 
 .submenu a:hover {
-    background: var(--theme);
     color: var(--tertiary);
 }
 
-/* Ensure header doesn't clip dropdown */
-.header {
-    overflow: visible !important;
-}
-
-.header-nav {
+/* Ensure header doesn't clip */
+.header, .header-nav {
     overflow: visible !important;
 }
 

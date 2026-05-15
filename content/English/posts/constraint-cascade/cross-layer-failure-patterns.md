@@ -2,7 +2,7 @@
 date = "2026-05-09T08:00:00+08:00"
 draft = false
 title = "Cross-Layer Failure Patterns and the Labor That Absorbs Them"
-categories = ["Essays"]
+categories = ['Academic Papers']
 tags = ["AI governance", "diagnostic taxonomy", "constraint cascade", "structural audit", "Dual Certificates"]
 translationKey = "constraint-cascade-3"
 weight = 3

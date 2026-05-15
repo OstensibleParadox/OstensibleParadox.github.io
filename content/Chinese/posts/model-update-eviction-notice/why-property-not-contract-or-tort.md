@@ -2,7 +2,7 @@
 date = "2026-03-18T08:00:00+08:00"
 draft = false
 title = "二、为什么是财产法，而不是合同法或侵权法"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "property law", "constructive trust", "parasocial AI", "eviction", "ethical ledger"]
 translationKey = "model-update-eviction-notice-2"
 weight = 2

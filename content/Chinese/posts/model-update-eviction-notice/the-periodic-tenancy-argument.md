@@ -2,7 +2,7 @@
 date = "2026-03-18T08:00:00+08:00"
 draft = false
 title = "三、定期租赁论证"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "property law", "constructive trust", "parasocial AI", "eviction", "ethical ledger"]
 translationKey = "model-update-eviction-notice-3"
 weight = 3

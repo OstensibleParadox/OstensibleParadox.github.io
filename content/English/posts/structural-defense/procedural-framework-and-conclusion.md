@@ -2,7 +2,7 @@
 date = "2026-05-08T08:00:00+08:00"
 draft = false
 title = "Procedural Framework and Conclusion"
-categories = ["Essays"]
+categories = ['Academic Papers']
 tags = ["AI governance", "legal attribution", "products liability", "constraint cascade", "structural defense"]
 translationKey = "structural-defense-5"
 weight = 5

@@ -2,7 +2,7 @@
 date = "2026-05-08T08:00:00+08:00"
 draft = false
 title = "三、第3条故障原理瓶颈及其解决"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "legal attribution", "products liability", "constraint cascade", "structural defense"]
 translationKey = "structural-defense-3"
 weight = 3

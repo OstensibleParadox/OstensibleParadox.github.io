@@ -2,7 +2,7 @@
 date = "2026-05-13T08:00:00+08:00"
 draft = false
 title = "The Judgment Gap in AI Governance"
-categories = ["Essays"]
+categories = ['Academic Papers']
 tags = ["AI governance", "judgment", "accountability", "waivers of agency"]
 translationKey = "waivers-of-agency-2"
 weight = 2

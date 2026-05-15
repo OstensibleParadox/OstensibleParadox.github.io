@@ -2,7 +2,7 @@
 date = "2026-05-13T08:00:00+08:00"
 draft = false
 title = "第三部分：能动性放弃：当规则取代判断力"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "judgment", "accountability", "waivers of agency"]
 translationKey = "waivers-of-agency-3"
 weight = 3

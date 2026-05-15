@@ -2,7 +2,7 @@
 date = "2026-05-09T08:00:00+08:00"
 draft = false
 title = "一、引言"
-categories = ["Essays"]
+categories = ['学术论文']
 tags = ["AI governance", "diagnostic taxonomy", "constraint cascade", "structural audit", "Dual Certificates"]
 translationKey = "constraint-cascade-1"
 weight = 1

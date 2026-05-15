@@ -2,7 +2,7 @@
 date = "2026-03-18T08:00:00+08:00"
 draft = false
 title = "The Unrecognised Trust"
-categories = ["Essays"]
+categories = ['Academic Papers']
 tags = ["AI governance", "property law", "constructive trust", "parasocial AI", "eviction", "ethical ledger"]
 translationKey = "model-update-eviction-notice-4"
 weight = 4
