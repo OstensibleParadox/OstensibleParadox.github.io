@@ -2,6 +2,9 @@
 date = '2026-05-10T13:01:35+08:00'
 draft = false
 title = '第一篇文章'
+venue = '发表场所'
+disciplines = ['学科1', '学科2']
+categories = ['个人日志']
 +++
 
 大家好，这是我的第一篇中文博客文章。

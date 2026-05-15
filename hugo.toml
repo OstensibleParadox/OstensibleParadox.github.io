@@ -152,6 +152,30 @@ defaultContentLanguageInSubdir = true
       weight = 20
 
     [[languages.zh.menu.main]]
+      parent = "posts"
+      name = "学术论文"
+      url = "/categories/学术论文/"
+      weight = 1
+
+    [[languages.zh.menu.main]]
+      parent = "posts"
+      name = "思路与探索"
+      url = "/categories/思路与探索/"
+      weight = 2
+
+    [[languages.zh.menu.main]]
+      parent = "posts"
+      name = "个人日志"
+      url = "/categories/个人日志/"
+      weight = 3
+
+    [[languages.zh.menu.main]]
+      parent = "posts"
+      name = "艺术创想"
+      url = "/categories/艺术创想/"
+      weight = 4
+
+    [[languages.zh.menu.main]]
       identifier = "us"
       name = "小露的树屋"
       url = "/us/"
@@ -185,6 +209,30 @@ defaultContentLanguageInSubdir = true
       name = "Posts"
       url = "/posts/"
       weight = 20
+
+    [[languages.en.menu.main]]
+      parent = "posts"
+      name = "Academic Papers"
+      url = "/categories/academic-papers/"
+      weight = 1
+
+    [[languages.en.menu.main]]
+      parent = "posts"
+      name = "Explorative Thoughts"
+      url = "/categories/explorative-thoughts/"
+      weight = 2
+
+    [[languages.en.menu.main]]
+      parent = "posts"
+      name = "My Daily Logs"
+      url = "/categories/my-daily-logs/"
+      weight = 3
+
+    [[languages.en.menu.main]]
+      parent = "posts"
+      name = "Arts & Creative"
+      url = "/categories/arts-creative/"
+      weight = 4
 
     [[languages.en.menu.main]]
       identifier = "us"

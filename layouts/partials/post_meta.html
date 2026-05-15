@@ -19,6 +19,16 @@
     {{- end }}
 {{- end }}
 
+{{- if .Params.venue -}}
+    {{- $scratch.Add "meta" (slice (printf "<span class='meta-venue'># %s</span>" .Params.venue))) }}
+{{- end }}
+
+{{- if .Params.disciplines -}}
+    {{- range .Params.disciplines -}}
+        {{- $scratch.Add "meta" (slice (printf "<span class='meta-discipline'># %s</span>" .)) }}
+    {{- end }}
+{{- end }}
+
 {{/* Combine all meta information into a single string with separators and render it as HTML.*/}}
 
 {{- with ($scratch.Get "meta") }}
